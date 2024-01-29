@@ -18,10 +18,10 @@ const query = util.promisify(pool.query).bind(pool);
 
 const waitForMySQL = async () => {
     try {
-        // Aguarda a disponibilidade do MySQL na porta 3306
+        // Esperar o MySQL na porta 3306
         await waitPort({ host: 'db', port: 3306, timeout: 20000 });
 
-        // Aguarda mais alguns segundos para garantir que o MySQL está pronto
+        // Esperar mais alguns segundos para garantir que o MySQL está pronto
         await new Promise(resolve => setTimeout(resolve, 5000));
     } catch (error) {
         console.error('Erro ao aguardar MySQL:', error);

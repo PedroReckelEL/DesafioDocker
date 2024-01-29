@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  app:
+    build:
+      context: node
+    container_name: app
+    networks:
+      - expressnet
+    volumes:
+      - ./node:/var/www
+    tty: true
+    ports: 
+      - "5001:5001"
+    depends_on: 
+      - db
+
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_USER=admin
+    networks: 
+      - expressnet
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: dockerfile
+    image: nginx
+    container_name: nginx
+    networks:
+      - expressnet
+    ports:
+      - "8080:80"
+
+networks:
+  expressnet:
+    name: expressnet  # Defina explicitamente o nome da rede para evitar conflitos
+    external: true
+    driver: bridge

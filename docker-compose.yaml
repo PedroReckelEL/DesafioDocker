@@ -44,6 +44,6 @@ services:
 
 networks:
   expressnet:
-    name: expressnet  # Defina explicitamente o nome da rede para evitar conflitos
+    name: expressnet 
     external: true
     driver: bridge
